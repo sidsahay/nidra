@@ -13,26 +13,24 @@ using namespace glm;
 
 glm::mat4 aiMatrix4x4ToGlm(const aiMatrix4x4 &from);
 
-struct VertexBoneData
-{
+struct VertexBoneData {
     int boneIds[4] = {0};
     float boneWeights[4] = {0.f, 0.f, 0.f, 0.f};
 };
 
-struct BoneInfo
-{
+struct BoneInfo {
     unsigned int id;
-    aiNodeAnim* nodeAnim;
+    aiNodeAnim *nodeAnim;
     glm::mat4 offsetMatrix;
 };
 
-struct AnimatedCharacterData
-{
-    explicit AnimatedCharacterData(const aiScene* scene, const char* vshaderPath, const char* fshaderPath, const char* texturePath);
+struct AnimatedCharacterData {
+    explicit AnimatedCharacterData(const aiScene *scene, const char *vshaderPath, const char *fshaderPath,
+                                   const char *texturePath);
 
     ~AnimatedCharacterData();
 
-    const aiScene* scene;
+    const aiScene *scene;
 
     unsigned int numMeshes = 0;
     unsigned int boneNumber = 0;
@@ -44,7 +42,7 @@ struct AnimatedCharacterData
     std::vector<std::vector<VertexBoneData>> vboneDatas;
 
     std::map<std::string, BoneInfo> boneNameToInfo;
-    std::map<std::string, aiNodeAnim*> nodeNameToAnim;
+    std::map<std::string, aiNodeAnim *> nodeNameToAnim;
     std::vector<glm::mat4> boneTransforms;
     std::vector<glm::vec3> bonePositions;
 
@@ -58,8 +56,10 @@ struct AnimatedCharacterData
     unsigned int nextClip = 0;
 
     unsigned int currentAnimationIndex = 0;
+
     void UpdateBones();
-    void _UpdateBonesRec(aiNode* node, glm::mat4 parentTransform);
+
+    void _UpdateBonesRec(aiNode *node, glm::mat4 parentTransform);
 };
 
 #endif //NIDRA_CODE_ANIMATEDCHARACTERDATA_HPP

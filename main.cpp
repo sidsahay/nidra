@@ -10,27 +10,25 @@
 
 // Include GLFW
 #include <GLFW/glfw3.h>
-GLFWwindow* window;
+
+GLFWwindow *window;
 
 // Include GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
+
 using namespace glm;
 
 #include "code/controls.hpp"
 #include "code/animatedcharacter.hpp"
 
 #include <assimp/Importer.hpp>      // C++ importer interface
-#include <assimp/scene.h>           // Output data structure
-#include <assimp/postprocess.h>
 
 
-int main()
-{
-    if(!glfwInit())
-    {
-        fprintf( stderr, "Failed to initialize GLFW\n" );
+int main() {
+    if (!glfwInit()) {
+        fprintf(stderr, "Failed to initialize GLFW\n");
         getchar();
         return -1;
     }
@@ -41,9 +39,10 @@ int main()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow( 1024, 768, "Tatti", NULL, NULL);
-    if( window == NULL ){
-        fprintf( stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n" );
+    window = glfwCreateWindow(1024, 768, "Tatti", NULL, NULL);
+    if (window == NULL) {
+        fprintf(stderr,
+                "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
         getchar();
         glfwTerminate();
         return -1;
@@ -65,7 +64,7 @@ int main()
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glfwPollEvents();
-    glfwSetCursorPos(window, 1024/2, 768/2);
+    glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
     glClearColor(0.1f, 0.1f, 0.1f, 0.0f);
 
@@ -79,9 +78,10 @@ int main()
 
     Assimp::Importer importer;
 
-    AnimatedCharacterData characterData(importer.ReadFile("../models/combat.dae", 0), "../code/shaders/vshader.glsl", "../code/shaders/fshader.glsl", "../models/tex.bmp");
-    if( !characterData.scene) {
-        fprintf( stderr, importer.GetErrorString());
+    AnimatedCharacterData characterData(importer.ReadFile("../models/combat.dae", 0), "../code/shaders/vshader.glsl",
+                                        "../code/shaders/fshader.glsl", "../models/tex.bmp");
+    if (!characterData.scene) {
+        fprintf(stderr, importer.GetErrorString());
         getchar();
         return false;
     }
@@ -113,9 +113,10 @@ int main()
     GLuint bonePositionBuffer;
     glGenBuffers(1, &bonePositionBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, bonePositionBuffer);
-    glBufferData(GL_ARRAY_BUFFER, characterData.bonePositions.size() * sizeof(glm::vec3), &characterData.bonePositions[0], GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, characterData.bonePositions.size() * sizeof(glm::vec3),
+                 &characterData.bonePositions[0], GL_DYNAMIC_DRAW);
 
-    do{
+    do {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -126,7 +127,7 @@ int main()
         glm::mat4 ModelMatrix = glm::mat4(1.0);
         glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
-        glm::vec3 light = glm::vec3(4,4,4);
+        glm::vec3 light = glm::vec3(4, 4, 4);
 
         character.UpdateMatrices(ProjectionMatrix, ViewMatrix, ModelMatrix, MVP);
         character.UpdateLight(light);
@@ -156,8 +157,8 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
 
-    } while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
-             glfwWindowShouldClose(window) == 0 );
+    } while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
+             glfwWindowShouldClose(window) == 0);
 
     glDeleteVertexArrays(1, &vertexArrayID);
 

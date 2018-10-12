@@ -6,13 +6,12 @@
 #include "shader.hpp"
 #include "texture.hpp"
 
-struct AnimatedCharacterBuffers
-{
-    explicit AnimatedCharacterBuffers(const AnimatedCharacterData& character);
+struct AnimatedCharacterBuffers {
+    explicit AnimatedCharacterBuffers(const AnimatedCharacterData &character);
 
     ~AnimatedCharacterBuffers();
 
-    const AnimatedCharacterData& character;
+    const AnimatedCharacterData &character;
 
     std::vector<GLuint> vertexBuffers;
     std::vector<GLuint> uvBuffers;

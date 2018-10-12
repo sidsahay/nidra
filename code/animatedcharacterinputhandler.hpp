@@ -5,11 +5,10 @@
 
 #include <GLFW/glfw3.h>
 
-struct AnimatedCharacterInputHandler
-{
+struct AnimatedCharacterInputHandler {
     static const int debounceTimerStartingValue = 10;
 
-    explicit AnimatedCharacterInputHandler(GLFWwindow* window, AnimatedCharacterData& character);
+    explicit AnimatedCharacterInputHandler(GLFWwindow *window, AnimatedCharacterData &character);
 
     bool isBouncing = false;
     int debounceTimer = debounceTimerStartingValue;
@@ -17,9 +16,9 @@ struct AnimatedCharacterInputHandler
     int kickKey = 0;
     int punchKey = 0;
 
-    AnimatedCharacterData& character;
+    AnimatedCharacterData &character;
 
-    GLFWwindow* window;
+    GLFWwindow *window;
 
     void ProcessInput();
 };

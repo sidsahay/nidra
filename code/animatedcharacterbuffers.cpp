@@ -4,10 +4,8 @@
 
 AnimatedCharacterBuffers::AnimatedCharacterBuffers(const AnimatedCharacterData &character) : character(character) {}
 
-AnimatedCharacterBuffers::~AnimatedCharacterBuffers()
-{
-    if (isBuilt)
-    {
+AnimatedCharacterBuffers::~AnimatedCharacterBuffers() {
+    if (isBuilt) {
         glDeleteBuffers(character.numMeshes, &vertexBuffers[0]);
         glDeleteBuffers(character.numMeshes, &uvBuffers[0]);
         glDeleteBuffers(character.numMeshes, &normalBuffers[0]);
@@ -19,8 +17,7 @@ AnimatedCharacterBuffers::~AnimatedCharacterBuffers()
     }
 }
 
-void AnimatedCharacterBuffers::Build()
-{
+void AnimatedCharacterBuffers::Build() {
     shaderProgramID = LoadShaders(character.vshaderPath.c_str(), character.fshaderPath.c_str());
     textureID = loadBMP_custom(character.texturePath.c_str());
 
@@ -37,40 +34,40 @@ void AnimatedCharacterBuffers::Build()
     vertexBuffers.reserve(character.numMeshes);
 
     glGenBuffers(character.numMeshes, &vertexBuffers[0]);
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, character.vertices[i].size() * sizeof(glm::vec3), &character.vertices[i][0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, character.vertices[i].size() * sizeof(glm::vec3), &character.vertices[i][0],
+                     GL_STATIC_DRAW);
     }
 
     uvBuffers.reserve(character.numMeshes);
 
     glGenBuffers(character.numMeshes, &uvBuffers[0]);
 
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, character.uvs[i].size() * sizeof(glm::vec2), &character.uvs[i][0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, character.uvs[i].size() * sizeof(glm::vec2), &character.uvs[i][0],
+                     GL_STATIC_DRAW);
     }
 
     normalBuffers.reserve(character.numMeshes);
 
     glGenBuffers(character.numMeshes, &normalBuffers[0]);
 
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, normalBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, character.normals[i].size() * sizeof(glm::vec3), &character.normals[i][0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, character.normals[i].size() * sizeof(glm::vec3), &character.normals[i][0],
+                     GL_STATIC_DRAW);
     }
 
     elementBuffers.reserve(character.numMeshes);
 
     glGenBuffers(character.numMeshes, &elementBuffers[0]);
 
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffers[i]);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, character.indices[i].size() * sizeof(unsigned short), &character.indices[i][0] , GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, character.indices[i].size() * sizeof(unsigned short),
+                     &character.indices[i][0], GL_STATIC_DRAW);
     }
 
     // Generate a buffer for vertexBoneData
@@ -78,24 +75,22 @@ void AnimatedCharacterBuffers::Build()
 
     glGenBuffers(character.numMeshes, &vboneBuffers[0]);
 
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         glBindBuffer(GL_ARRAY_BUFFER, vboneBuffers[i]);
-        glBufferData(GL_ARRAY_BUFFER, character.vboneDatas[i].size() * sizeof(VertexBoneData), &character.vboneDatas[i][0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, character.vboneDatas[i].size() * sizeof(VertexBoneData),
+                     &character.vboneDatas[i][0], GL_STATIC_DRAW);
     }
 
     isBuilt = true;
 }
 
-void AnimatedCharacterBuffers::Render()
-{
+void AnimatedCharacterBuffers::Render() {
     glUseProgram(shaderProgramID);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
     glUniform1i(textureSamplerID, 0);
 
-    for (auto i = 0; i < character.numMeshes; i++)
-    {
+    for (auto i = 0; i < character.numMeshes; i++) {
         //vertices are attribute 0
         glEnableVertexAttribArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, vertexBuffers[i]);
@@ -135,8 +130,7 @@ void AnimatedCharacterBuffers::Render()
     }
 }
 
-void AnimatedCharacterBuffers::UpdateLight(const vec3& light)
-{
+void AnimatedCharacterBuffers::UpdateLight(const vec3 &light) {
     glUniform3f(lightID, light.x, light.y, light.z);
 }
 
