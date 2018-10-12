@@ -1,7 +1,7 @@
 #ifndef NIDRA_ANIMATEDCHARACTER_HPP
 #define NIDRA_ANIMATEDCHARACTER_HPP
 
-#include "animatedcharacterbuffers.hpp"
+#include "../realtime/animatedcharacterbuffers.hpp"
 #include "animatedcharacterinputhandler.hpp"
 
 struct AnimatedCharacter {

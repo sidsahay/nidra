@@ -1,10 +1,10 @@
 #ifndef NIDRA_CODE_ANIMATEDCHARACTERBUFFERS_HPP
 #define NIDRA_CODE_ANIMATEDCHARACTERBUFFERS_HPP
 
-#include "animatedcharacterdata.hpp"
+#include "../scene/animatedcharacterdata.hpp"
 
-#include "shader.hpp"
-#include "texture.hpp"
+#include "../utilities/shader.hpp"
+#include "../utilities/texture.hpp"
 
 struct AnimatedCharacterBuffers {
     explicit AnimatedCharacterBuffers(const AnimatedCharacterData &character);

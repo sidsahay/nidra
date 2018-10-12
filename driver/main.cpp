@@ -20,8 +20,8 @@ GLFWwindow *window;
 
 using namespace glm;
 
-#include "code/controls.hpp"
-#include "code/animatedcharacter.hpp"
+#include "../code/utilities/controls.hpp"
+#include "../code/scene/animatedcharacter.hpp"
 
 #include <assimp/Importer.hpp>      // C++ importer interface
 
@@ -78,8 +78,8 @@ int main() {
 
     Assimp::Importer importer;
 
-    AnimatedCharacterData characterData(importer.ReadFile("../models/combat.dae", 0), "../code/shaders/vshader.glsl",
-                                        "../code/shaders/fshader.glsl", "../models/tex.bmp");
+    AnimatedCharacterData characterData(importer.ReadFile("../models/combat.dae", 0), "../code/realtime/shaders/vshader.glsl",
+                                        "../code/realtime/shaders/fshader.glsl", "../models/tex.bmp");
     if (!characterData.scene) {
         fprintf(stderr, importer.GetErrorString());
         getchar();
@@ -104,7 +104,7 @@ int main() {
     AnimatedCharacter character(characterData, characterBuffers, characterInputHandler);
     glPointSize(5.0f);
 
-    GLuint boneProgramID = LoadShaders("../code/shaders/vshader_bone.glsl", "../code/shaders/fshader_bone.glsl");
+    /*GLuint boneProgramID = LoadShaders("../code/shaders/vshader_bone.glsl", "../code/shaders/fshader_bone.glsl");
 
     glUseProgram(boneProgramID);
     GLint boneMVPID = glGetUniformLocation(boneProgramID, "MVP");
@@ -115,7 +115,7 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, bonePositionBuffer);
     glBufferData(GL_ARRAY_BUFFER, characterData.bonePositions.size() * sizeof(glm::vec3),
                  &characterData.bonePositions[0], GL_DYNAMIC_DRAW);
-
+*/
     do {
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
